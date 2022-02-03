@@ -1,13 +1,39 @@
-Version: 1.0
+install.packages("gapminder")
+library(gapminder)
+data("gapminder")
 
-RestoreWorkspace: Default
-SaveWorkspace: Default
-AlwaysSaveHistory: Default
+summary(gapminder)
+x <- mean(gapminder$gdpPercap)
+x
 
-EnableCodeIndexing: Yes
-UseSpacesForTab: Yes
-NumSpacesForTab: 2
-Encoding: UTF-8
+attach(gapminder)
+median(pop)
+hist(lifeExp)
+hist(log(pop))
+boxplot(lifeExp ~ continent)
+plot(lifeExp ~ log(gdpPercap))
 
-RnwWeave: Sweave
-LaTeX: pdfLaTeX
+install.packages("dplyr")
+library(dplyr)     
+
+df1 <- gapminder %>%
+  select(country, lifeExp) %>%
+  filter(country == "South Africa" |
+           country == "Ireland")
+group_by(country) %>%
+  summarise(Average_Life = mean(lifeExp))
+
+t.test(data = df1, lifeExp ~ country)
+
+library(ggplot2)
+
+gapminder %>%
+  filter(gdpPercap < 50000) %>%
+  ggplot(aes(x=log(gdpPercap), y=lifeExp, col=year, size=pop))+
+  geom_point(alpha=0.3)+
+  geom_smooth(method = lm)+
+  facet_wrap(~continent)  
+
+summary(lm(lifeExp ~ gdpPercap+pop))
+
+
