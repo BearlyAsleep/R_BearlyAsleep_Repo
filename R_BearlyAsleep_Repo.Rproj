@@ -20,8 +20,6 @@ df1 <- gapminder %>%
   select(country, lifeExp) %>%
   filter(country == "South Africa" |
            country == "Ireland")
-group_by(country) %>%
-  summarise(Average_Life = mean(lifeExp))
 
 t.test(data = df1, lifeExp ~ country)
 
